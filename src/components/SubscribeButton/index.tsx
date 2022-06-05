@@ -1,3 +1,4 @@
+import { useSession, signIn } from 'next-auth/react';
 import styles from './styles.module.scss';
 
 interface SubscribeButtonProps {
@@ -5,10 +6,17 @@ interface SubscribeButtonProps {
 }
 
 export function SubscribeButton({ priceId }: SubscribeButtonProps) {
+  const session = useSession();
+
+  function handleSubscribe() {
+    if (!session) return signIn('github');
+  }
+
   return (
     <button
       type="button"
       className={styles.subscribeButton}
+      onClick={handleSubscribe}
     >
       Subscribe now
     </button>
